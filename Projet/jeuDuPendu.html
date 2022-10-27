@@ -39,16 +39,16 @@
             }
         }
 
-        // function isInArray(theItem, theArray) {
-        //     itemFound = false;
-        //     for (let x = 0;x <= theArray.length ; x++) {
-        //         if (theArray[x] == theItem) {
-        //             itemFound = true;
-        //             break;
-        //         }
-        //     }
-        //     return itemFound;
-        // }
+        function isInArray(theItem, theArray) {
+            itemFound = false;
+            for (let x = 0;x <= theArray.length ; x++) {
+                if (theArray[x] == theItem) {
+                    itemFound = true;
+                    break;
+                }
+            }
+            return itemFound;
+        }
 
         function pickWord() {
             if (currentWordList.length == 0) {
@@ -60,7 +60,7 @@
         }
 
         function initHiddenWord() {
-            for (x = 1; x <= nbLetters - 1; x++) {
+            for (let x = 1; x <= nbLetters - 1; x++) {
                 var newHiddenLetter = document.getElementById("hiddenLetter0").cloneNode(true);
                 newHiddenLetter.firstChild.id = "lettre_" + x;
                 newHiddenLetter.id = "hiddenLetter" + x;
