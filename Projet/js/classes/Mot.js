@@ -1,6 +1,6 @@
 "use strict"
 let MOTS_JEUX =[]
-let currentWord
+let currentWord =""
 function initWords(){
     let mots_source = []
     let setIndex = new Set()
@@ -21,6 +21,8 @@ function initWords(){
         MOTS_JEUX.push(mots_source[value])
     })
     pickWord()
+    initHiddenWord()
+
 }
 
 function pickWord() {
@@ -36,10 +38,26 @@ function pickWord() {
 }
 
 function initHiddenWord() {
-    for (let x = 1; x <= nbLetters - 1; x++) {
-        var newHiddenLetter = document.getElementById("hiddenLetter0").cloneNode(true);
-        newHiddenLetter.firstChild.id = "lettre_" + x;
-        newHiddenLetter.id = "hiddenLetter" + x;
+    console.log(currentWord.length)
+    for (let x = 1; x < currentWord.length; x++) {
+        let newHiddenLetter = document.getElementById("hiddenLetter0").cloneNode(true);
+        newHiddenLetter.firstChild.id = `lettre_${(x)}`;
+        newHiddenLetter.id = `hiddenLetter${(x)}`;
         document.getElementById("mot_cache").appendChild(newHiddenLetter);
     }
 }
+
+function nextWord(){
+
+    let span = createFirstSpan()
+    let mot_cache = document.getElementById("mot_cache")
+    while (mot_cache.firstChild){
+        mot_cache.removeChild(mot_cache.lastChild)
+    }
+    $("#mot_cache").append(span)
+    pickWord()
+    initHiddenWord()
+
+
+}
+

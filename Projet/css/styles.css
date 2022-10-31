@@ -35,4 +35,11 @@ tr,td{
     width: 275px;
     height: 243px;
 }
+#mot_cache{
+    width:500px;
+    position:absolute;
+    left:15px;
+    top:426px;
+    text-align:center;
+}
 

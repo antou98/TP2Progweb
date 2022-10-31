@@ -43,6 +43,21 @@ function createHTML() {
     $("table td").attr('align', 'left').attr('valign', 'top');
 
     //reste à ajouter les divs pour lettre et le mot
+    let divMot_cache = document.createElement("div");
+    divMot_cache.id = "mot_cache"
+    $("#divPrincipal").append(divMot_cache)
+
+    let spanLettre0 = createFirstSpan()
+    $("#mot_cache").append(spanLettre0)
+
+    let buttonTest = document.createElement("button")
+    buttonTest.id ="buttonTest"
+    buttonTest.textContent = "test"
+
+    $("body").append(buttonTest)
+
+    buttonTest.addEventListener("click",nextWord)
+
 
 }
 
