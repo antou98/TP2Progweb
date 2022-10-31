@@ -1,5 +1,6 @@
 "use strict"
-
+"use strict"
+//Anoh Christian Assanvo/ Antoine Fortier
 
 function createImg(src, width, height, alt, id) {
     let img = document.createElement("img")

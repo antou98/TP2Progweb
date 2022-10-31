@@ -1,4 +1,5 @@
 "use strict"
+//Anoh Christian Assanvo/ Antoine Fortier
 
 class Mot {
     constructor(mot) {
