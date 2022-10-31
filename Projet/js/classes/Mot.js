@@ -66,6 +66,7 @@ class Mot {
     }
 }
 
+
 function test() {
     let mot = new Mot("allllyyllello");
     console.log(mot)

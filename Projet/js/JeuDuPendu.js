@@ -48,9 +48,41 @@ function createHTML() {
     divMot_cache.id = "mot_cache"
     $("#divPrincipal").append(divMot_cache)
 
-    let spanLettre0 = createFirstSpan()
-    $("#mot_cache").append(spanLettre0)
+    //create span parent for hidden word
+    let spanLettreBase = createFirstSpan()
+    $("#mot_cache").append(spanLettreBase)
 
+    let div_alphabet = document.createElement("div")
+    div_alphabet.id = "alphabet"
+
+//exemple du  html qui doit être généré
+
+    //<span style="margin-right:10px;">
+    // <a href="#" onClick="javascript:letterCheck('a',0,event)" id="link_a">
+    // <img src="images/lettres/a.gif" alt="Lettre A" width="18" height="35" border="0" id="a"/>
+    // </a>
+    // </span>
+
+
+    //création de span lettre pour la div alphabet
+    let alphabetTab = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+    for (let i = 0;i<26;i++){
+        let spanLettre = document.createElement("span")
+        spanLettre.className = "spanAlphabet"
+
+        let src = `images/lettres/${alphabetTab[i]}.gif`
+        spanLettre.append(createImg(src,18,35,alphabetTab[i],alphabetTab[i]))
+        div_alphabet.append(spanLettre)
+
+
+    }
+    $("#divPrincipal").append(div_alphabet)
+
+
+
+
+
+    //button pour tester
     let buttonTest = document.createElement("button")
     buttonTest.id ="buttonTest"
     buttonTest.textContent = "test"
@@ -67,8 +99,11 @@ function main(){
     initWords()
 
 }
+
+//variable globale à modifier
 let MOTS_JEUX =[]
 let currentWord ;
+
 function initWords(){
     let mots_source = []
     let setIndex = new Set()

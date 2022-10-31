@@ -42,4 +42,14 @@ tr,td{
     top:426px;
     text-align:center;
 }
+#alphabet{
+    width:500px;
+    position:absolute;
+    left:15px;
+    top:475px;
+    text-align:center;
+}
+.spanAlphabet{
+    margin-right:10px;
+}
 
