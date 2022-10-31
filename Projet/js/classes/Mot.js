@@ -1,63 +1,88 @@
 "use strict"
-let MOTS_JEUX =[]
-let currentWord =""
-function initWords(){
-    let mots_source = []
-    let setIndex = new Set()
-    let nbEssaies =7
 
-
-    for (let cle in motsSources){
-        mots_source.push(motsSources[cle])
+class Mot {
+    constructor(mot) {
+        this._mot = mot
+        this._lettresRestantes = mot
+        this._nbDeMauvaiseLettresEntrees = 0
     }
 
-    do {
-        let randomInt = Math.trunc(Math.random()*15)
-        setIndex.add(randomInt)
-    }while (setIndex.size<nbEssaies)
+    get mot() {
+        return this._mot
+    }
 
-    setIndex.forEach((value)=>{
-        console.log(value)
-        MOTS_JEUX.push(mots_source[value])
-    })
-    pickWord()
-    initHiddenWord()
+    get lettresRestantesGET() {
+        return this._lettresRestantes
+    }
+
+    get nbLettreMauvaiseGET() {
+        return this._nbDeMauvaiseLettresEntrees
+    }
+
+
+    motLength() {
+        return this._mot.length
+    }
+
+    //retourne tableau de lettres
+    contientLettre(lettre) {
+        let tabLettre = Array.from(this._lettresRestantes)
+
+        let retIndex = []
+
+        let tabSetLettresRestante = Array.from(this._lettresRestantes)
+
+        for (let i = 0; i < tabLettre.length; i++) {
+            if (tabLettre[i] === lettre) {
+                retIndex.push(i)
+            }
+        }
+        console.log(retIndex)
+        console.log(tabSetLettresRestante)
+
+        let numberTimesConditionFilled = 1
+        for (let i = 0; i < retIndex.length; i++) {
+            if (i === 0) {
+                tabSetLettresRestante.splice(retIndex[i], 1)
+            } else {
+                let index = retIndex[i] -= numberTimesConditionFilled
+                tabSetLettresRestante.splice(index, 1)
+                numberTimesConditionFilled++
+            }
+        }
+        console.log(tabSetLettresRestante)
+        this._lettresRestantes = tabSetLettresRestante.join("")
+
+        if (retIndex.length === 0) {
+            this._nbDeMauvaiseLettresEntrees += 1
+        }
+        return retIndex;
+    }
+
+    resetAttributes() {
+        this._nbDeMauvaiseLettresEntrees = 0
+        this._lettresRestantes = this._mot
+    }
+}
+
+function test() {
+    let mot = new Mot("allllyyllello");
+    console.log(mot)
+
+    console.log(mot.lettresRestantesGET)
+    console.log(mot.nbLettreMauvaiseGET)
+
+    mot.contientLettre("t")
+
+    console.log(mot.lettresRestantesGET)
+    console.log(mot.nbLettreMauvaiseGET)
+
+    mot.contientLettre("l")
+    console.log(mot.lettresRestantesGET)
+    console.log(mot.nbLettreMauvaiseGET)
+
 
 }
 
-function pickWord() {
-    if (MOTS_JEUX.length === 0) {
-        //affiche le résultat
-    }
-    console.log(MOTS_JEUX)
-    let random = Math.floor(Math.random() * (MOTS_JEUX.length - 1));
-    currentWord = MOTS_JEUX[random];
-    MOTS_JEUX.splice(random, 1);
-    console.log(currentWord)
-    console.log(MOTS_JEUX)
-}
-
-function initHiddenWord() {
-    console.log(currentWord.length)
-    for (let x = 1; x < currentWord.length; x++) {
-        let newHiddenLetter = document.getElementById("hiddenLetter0").cloneNode(true);
-        newHiddenLetter.firstChild.id = `lettre_${(x)}`;
-        newHiddenLetter.id = `hiddenLetter${(x)}`;
-        document.getElementById("mot_cache").appendChild(newHiddenLetter);
-    }
-}
-
-function nextWord(){
-
-    let span = createFirstSpan()
-    let mot_cache = document.getElementById("mot_cache")
-    while (mot_cache.firstChild){
-        mot_cache.removeChild(mot_cache.lastChild)
-    }
-    $("#mot_cache").append(span)
-    pickWord()
-    initHiddenWord()
-
-
-}
+test()
 
