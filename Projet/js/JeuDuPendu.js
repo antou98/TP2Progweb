@@ -66,12 +66,12 @@ function createHTML() {
 
     //création de span lettre pour la div alphabet
     let alphabetTab = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-    for (let i = 0;i<26;i++){
+    for (let i = 0; i < 26; i++) {
         let spanLettre = document.createElement("span")
         spanLettre.className = "spanAlphabet"
 
         let src = `images/lettres/${alphabetTab[i]}.gif`
-        spanLettre.append(createImg(src,18,35,alphabetTab[i],alphabetTab[i]))
+        spanLettre.append(createImg(src, 18, 35, alphabetTab[i], alphabetTab[i]))
         div_alphabet.append(spanLettre)
 
 
@@ -79,47 +79,46 @@ function createHTML() {
     $("#divPrincipal").append(div_alphabet)
 
 
-
-
-
     //button pour tester
     let buttonTest = document.createElement("button")
-    buttonTest.id ="buttonTest"
+    buttonTest.id = "buttonTest"
     buttonTest.textContent = "test"
 
     $("body").append(buttonTest)
 
-    buttonTest.addEventListener("click",nextWord)
+    buttonTest.addEventListener("click", nextWord)
 
 
 }
 
-function main(){
+function main() {
     createHTML()
     initWords()
 
 }
 
 //variable globale à modifier
-let MOTS_JEUX =[]
-let currentWord ;
+let MOTS_JEUX = []
+let currentWord;
 
-function initWords(){
+
+//lancement des fonctions du jeu
+function initWords() {
     let mots_source = []
     let setIndex = new Set()
-    let nbEssaies =7
+    let nbEssaies = 7
 
 
-    for (let cle in motsSources){
+    for (let cle in motsSources) {
         mots_source.push(motsSources[cle])
     }
 
     do {
-        let randomInt = Math.trunc(Math.random()*15)
+        let randomInt = Math.trunc(Math.random() * 15)
         setIndex.add(randomInt)
-    }while (setIndex.size<nbEssaies)
+    } while (setIndex.size < nbEssaies)
 
-    setIndex.forEach((value)=>{
+    setIndex.forEach((value) => {
         console.log(value)
         MOTS_JEUX.push(mots_source[value])
     })
@@ -149,11 +148,11 @@ function initHiddenWord() {
     }
 }
 
-function nextWord(){
+function nextWord() {
 
     let span = createFirstSpan()
     let mot_cache = document.getElementById("mot_cache")
-    while (mot_cache.firstChild){
+    while (mot_cache.firstChild) {
         mot_cache.removeChild(mot_cache.lastChild)
     }
     $("#mot_cache").append(span)
@@ -164,4 +163,4 @@ function nextWord(){
 }
 
 
-main()
+$(() => main())
