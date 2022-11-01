@@ -1,4 +1,5 @@
 "use strict"
+
 //Anoh Christian Assanvo/ Antoine Fortier
 
 class Mot {
@@ -27,37 +28,47 @@ class Mot {
 
     //retourne tableau de lettres
     contientLettre(lettre) {
-        let tabLettre = Array.from(this._lettresRestantes)
+        let tabLettre = Array.from(this._mot)
 
         let retIndex = []
-
-        let tabSetLettresRestante = Array.from(this._lettresRestantes)
 
         for (let i = 0; i < tabLettre.length; i++) {
             if (tabLettre[i] === lettre) {
                 retIndex.push(i)
             }
         }
-        console.log(retIndex)
-        console.log(tabSetLettresRestante)
+        this.lettreContenueDansMot(retIndex)
+        this.moifieLettreRestante(retIndex)
 
+        return retIndex;
+    }
+
+    //ajoute 1 si la lettre sélectionné est mal
+    lettreContenueDansMot(tab) {
+        if (tab.length === 0) {
+            this._nbDeMauvaiseLettresEntrees += 1
+        }
+    }
+
+
+    moifieLettreRestante(tab) {
+        let tabSetLettresRestante = Array.from(this._lettresRestantes)
         let numberTimesConditionFilled = 1
-        for (let i = 0; i < retIndex.length; i++) {
+
+        for (let i = 0; i < tab.length; i++) {
+            //enlève la première trouver
             if (i === 0) {
-                tabSetLettresRestante.splice(retIndex[i], 1)
-            } else {
-                let index = retIndex[i] -= numberTimesConditionFilled
+                tabSetLettresRestante.splice(tab[i], 1)
+            }
+            //enlève les autres à l'aide du nombre de fois que la condition est remplie qui incrémente à chaque fois
+            else {
+                let index = tab[i] - numberTimesConditionFilled
                 tabSetLettresRestante.splice(index, 1)
                 numberTimesConditionFilled++
             }
         }
         console.log(tabSetLettresRestante)
         this._lettresRestantes = tabSetLettresRestante.join("")
-
-        if (retIndex.length === 0) {
-            this._nbDeMauvaiseLettresEntrees += 1
-        }
-        return retIndex;
     }
 
     resetAttributes() {

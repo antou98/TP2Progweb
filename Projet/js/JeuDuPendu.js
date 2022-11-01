@@ -18,6 +18,7 @@ function createHTML() {
         $("#tablePrincipal").append("<tr>")
     }
 
+    //creation de la disposition de la table
     let indexTD = 0
     $("tr").each(function () {
         if (indexTD === 0) {
@@ -40,10 +41,10 @@ function createHTML() {
 
         indexTD++
     })
-
+    //ajout attribut sur tout les td de la table
     $("table td").attr('align', 'left').attr('valign', 'top');
 
-    //reste à ajouter les divs pour lettre et le mot
+    //div du mot à deviner
     let divMot_cache = document.createElement("div");
     divMot_cache.id = "mot_cache"
     $("#divPrincipal").append(divMot_cache)
@@ -52,43 +53,35 @@ function createHTML() {
     let spanLettreBase = createFirstSpan()
     $("#mot_cache").append(spanLettreBase)
 
+    //div des lettres de l'alphabet
     let div_alphabet = document.createElement("div")
     div_alphabet.id = "alphabet"
-
-//exemple du  html qui doit être généré
-
-    //<span style="margin-right:10px;">
-    // <a href="#" onClick="javascript:letterCheck('a',0,event)" id="link_a">
-    // <img src="images/lettres/a.gif" alt="Lettre A" width="18" height="35" border="0" id="a"/>
-    // </a>
-    // </span>
-
 
     //création de span lettre pour la div alphabet
     let alphabetTab = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
     for (let i = 0; i < 26; i++) {
         let spanLettre = document.createElement("span")
         spanLettre.className = "spanAlphabet"
-
         let src = `images/lettres/${alphabetTab[i]}.gif`
         spanLettre.append(createImg(src, 18, 35, alphabetTab[i], alphabetTab[i]))
         div_alphabet.append(spanLettre)
-
-
     }
     $("#divPrincipal").append(div_alphabet)
 
 
-    //button pour tester
+    //ajout event listener
+    addEventListenersAlphabet()
+
+
+
+    ///////////////////////////////////////////////////
+    //button pour tester à déroulement effacer
     let buttonTest = document.createElement("button")
     buttonTest.id = "buttonTest"
     buttonTest.textContent = "test"
-
     $("body").append(buttonTest)
-
     buttonTest.addEventListener("click", nextWord)
-
-
+    ///////////////////////////////////////////////////
 }
 
 function main() {
@@ -96,6 +89,47 @@ function main() {
     initWords()
 
 }
+
+//add event listener sur les lettres de l'alphabet
+function addEventListenersAlphabet(){
+    $(".spanAlphabet").one("click",function (e){
+        e.currentTarget.className = "spanAlphabetClicked"
+
+        let lettreClicker = e.currentTarget.firstChild.id
+
+        console.log(this)
+
+        afficheLettre(lettreClicker)
+    })
+}
+
+
+function afficheLettre(lettre){
+    console.log(lettre)
+    console.log(currentWord.mot)
+    let tabIndex = currentWord.contientLettre(lettre)
+    console.log(tabIndex)
+    for(let index of tabIndex){
+        let string = `hiddenLetter${index}`
+        console.log(string)
+        let span = document.getElementById(string)
+        console.log(span)
+        span.replaceChildren()
+
+        console.log()
+        let image = createImg(`../images/lettres/${lettre}.gif`,0,0,lettre,lettre)
+        span.append(image)
+
+    }
+
+
+
+
+
+
+
+}
+
 
 //variable globale à modifier
 let MOTS_JEUX = []
@@ -127,6 +161,7 @@ function initWords() {
 
 }
 
+//choisi un mot random dans MOTS_JEUX
 function pickWord() {
     if (MOTS_JEUX.length === 0) {
         //affiche le résultat
@@ -138,6 +173,7 @@ function pickWord() {
 
 }
 
+//intialise un mot caché
 function initHiddenWord() {
     console.log(currentWord.motLength())
     for (let x = 1; x < currentWord.motLength(); x++) {
@@ -148,6 +184,7 @@ function initHiddenWord() {
     }
 }
 
+//initialise un nouveau mot
 function nextWord() {
 
     let span = createFirstSpan()
@@ -163,4 +200,4 @@ function nextWord() {
 }
 
 
-$(() => main())
+main()
