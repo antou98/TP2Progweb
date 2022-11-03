@@ -117,13 +117,15 @@ function afficheLettre(lettre) {
     console.log(tabIndex)
 
 
-
     if (NB_ESSAIE <= 9 && currentWord.lettresRestantesGET.length === 0) {
         for (let i = 0; i < currentWord.mot.length; i++) {
             let selector = `#lettre_${i}`
             let tab = Array.from(currentWord.mot)
             $(selector).prop("src", `images/lettres_verte/${tab[i]}.gif`)
+
         }
+        //document.body.addEventListener("click",nextWord,true)
+
 
     }
     //si dépassé le nombre d'essaie
@@ -133,15 +135,20 @@ function afficheLettre(lettre) {
             let tab = Array.from(currentWord.mot)
             $(selector).prop("src", `images/lettres_rouge/${tab[i]}.gif`)
             $("#dessin").prop("src", "images/bonhomme_pendu_9.jpg")
+
         }
-    }
-    else {
+        //ajoute event listener qui change au prochain mot à la fin de selection
+        //document.body.addEventListener("click",nextWord,true)
+
+
+    } else {
         if (tabIndex.length < 1) {
             let pathImg = `images/bonhomme_pendu_${NB_ESSAIE}.jpg`
             console.log(pathImg)
             $("#dessin").prop("src", pathImg)
             NB_ESSAIE += 1
             console.log(NB_ESSAIE)
+
 
         } else {
             tabIndex.forEach((num) => {
