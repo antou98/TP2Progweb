@@ -3,7 +3,7 @@
 
 
 //génération du html
-function createHTML() {
+function afficheInterfaceHtml() {
     let divPrincipal = document.createElement("div")
 
     divPrincipal.id = "divPrincipal"
@@ -28,13 +28,16 @@ function createHTML() {
             this.append(td)
         } else if (indexTD === 1) {
             let td1 = document.createElement("td")
+            td1.id = "dessinTD"
             let td2 = document.createElement("td")
+            td2.id = "phylactereTD"
             td1.rowSpan = 2
             td1.append(createImg("images/bonhomme_pendu_0.jpg", "400", "435", "dessin", "dessin"))
             td2.append(createImg("images/phylactere_intro.jpg", "275", "192", "", "phylactere"))
             this.append(td1, td2)
         } else if (indexTD === 2) {
             let td = document.createElement("td")
+            td.id = "personnageTD"
             td.append(createImg("images/personnage_1.jpg", "275", "241", "personnage", "personnage"))
             this.append(td)
         }
@@ -84,14 +87,20 @@ function createHTML() {
     ///////////////////////////////////////////////////
 }
 
+//variable globale à modifier
+let MOTS_JEUX = []
+let currentWord;
+let NB_ESSAIE = 1
+
 //add event listener sur les lettres de l'alphabet
 //et réintialise les classe des lettres de l'alphabet lors du relancement des listener
 function addEventListenersAlphabet() {
     let clickedSpans = document.querySelectorAll(".spanAlphabetClicked")
-    clickedSpans.forEach((e)=>{
+    clickedSpans.forEach((e) => {
         e.className = "spanAlphabet"
     })
-    $(".spanAlphabet").one("click", function (e) {
+
+    $(".spanAlphabet").off("click",).one("click", function (e) {
         //function anonyme qui ajoute les event listeners
         e.currentTarget.className = "spanAlphabetClicked"
 
@@ -103,22 +112,47 @@ function addEventListenersAlphabet() {
 
 //affiche lettre clické
 function afficheLettre(lettre) {
+
     let tabIndex = currentWord.contientLettre(lettre)
+    console.log(tabIndex)
 
-    tabIndex.forEach((num) => {
-        let string = `hiddenLetter${num}`
-        let span = document.getElementById(string)
-        span.replaceChildren()
-        let image = createImg(`images/lettres_mot/${lettre}.gif`, 0, 0, lettre, lettre)
-        span.append(image)
-    })
+
+
+    if (NB_ESSAIE <= 9 && currentWord.lettresRestantesGET.length === 0) {
+        for (let i = 0; i < currentWord.mot.length; i++) {
+            let selector = `#lettre_${i}`
+            let tab = Array.from(currentWord.mot)
+            $(selector).prop("src", `images/lettres_verte/${tab[i]}.gif`)
+        }
+
+    }
+    //si dépassé le nombre d'essaie
+    else if (NB_ESSAIE >= 9 && currentWord.lettresRestantesGET.length > 0) {
+        for (let i = 0; i < currentWord.mot.length; i++) {
+            let selector = `#lettre_${i}`
+            let tab = Array.from(currentWord.mot)
+            $(selector).prop("src", `images/lettres_rouge/${tab[i]}.gif`)
+            $("#dessin").prop("src", "images/bonhomme_pendu_9.jpg")
+        }
+    }
+    else {
+        if (tabIndex.length < 1) {
+            let pathImg = `images/bonhomme_pendu_${NB_ESSAIE}.jpg`
+            console.log(pathImg)
+            $("#dessin").prop("src", pathImg)
+            NB_ESSAIE += 1
+            console.log(NB_ESSAIE)
+
+        } else {
+            tabIndex.forEach((num) => {
+                let string = `#lettre_${num}`
+                console.log($(string))
+                $(string).prop("src", `images/lettres_mot/${lettre}.gif`)
+
+            })
+        }
+    }
 }
-
-
-//variable globale à modifier
-let MOTS_JEUX = []
-let currentWord;
-
 
 //lancement des fonctions du jeu
 function initWords() {
@@ -180,15 +214,17 @@ function nextWord() {
     pickWord()
     initHiddenWord()
     addEventListenersAlphabet()
-
-
-
+    $("#dessin").prop("src", `images/bonhomme_pendu_0.jpg`)
+    NB_ESSAIE = 1
 }
 
 //lancement
 function main() {
-    createHTML()
+    afficheInterfaceHtml()
     initWords()
 
 }
-$(()=>{main()})
+
+$(() => {
+    main()
+})
