@@ -37,38 +37,25 @@ class Mot {
                 retIndex.push(i)
             }
         }
-        this.lettreContenueDansMot(retIndex)
-        this.moifieLettreRestante(retIndex)
+        //appel
+        this.lettrePasContenueDansMot(retIndex)
+        this.moifieLettreRestante(lettre)
 
         return retIndex;
     }
 
     //ajoute 1 si la lettre sélectionné est mal
-    lettreContenueDansMot(tab) {
+    lettrePasContenueDansMot(tab) {
         if (tab.length === 0) {
             this._nbDeMauvaiseLettresEntrees += 1
         }
     }
 
 
-    moifieLettreRestante(tab) {
+    moifieLettreRestante(lettreRecu) {
         let tabSetLettresRestante = Array.from(this._lettresRestantes)
-        let numberTimesConditionFilled = 1
-
-        for (let i = 0; i < tab.length; i++) {
-            //enlève la première trouver
-            if (i === 0) {
-                tabSetLettresRestante.splice(tab[i], 1)
-            }
-            //enlève les autres à l'aide du nombre de fois que la condition est remplie qui incrémente à chaque fois
-            else {
-                let index = tab[i] - numberTimesConditionFilled
-                tabSetLettresRestante.splice(index, 1)
-                numberTimesConditionFilled++
-            }
-        }
-        console.log(tabSetLettresRestante)
-        this._lettresRestantes = tabSetLettresRestante.join("")
+        let retTab = tabSetLettresRestante.filter(item => item != lettreRecu)
+        this._lettresRestantes = retTab.join("")
     }
 
     resetAttributes() {
@@ -79,7 +66,7 @@ class Mot {
 
 
 function test() {
-    let mot = new Mot("allllyyllello");
+    let mot = new Mot("allo");
     console.log(mot)
 
     console.log(mot.lettresRestantesGET)
@@ -91,6 +78,22 @@ function test() {
     console.log(mot.nbLettreMauvaiseGET)
 
     mot.contientLettre("l")
+    console.log(mot.lettresRestantesGET)
+    console.log(mot.nbLettreMauvaiseGET)
+
+    mot.contientLettre("a")
+    console.log(mot.lettresRestantesGET)
+    console.log(mot.nbLettreMauvaiseGET)
+
+    mot.contientLettre("t")
+    console.log(mot.lettresRestantesGET)
+    console.log(mot.nbLettreMauvaiseGET)
+
+    mot.contientLettre("o")
+    console.log(mot.lettresRestantesGET)
+    console.log(mot.nbLettreMauvaiseGET)
+
+    mot.contientLettre("y")
     console.log(mot.lettresRestantesGET)
     console.log(mot.nbLettreMauvaiseGET)
 

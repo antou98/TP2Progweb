@@ -73,7 +73,6 @@ function createHTML() {
     addEventListenersAlphabet()
 
 
-
     ///////////////////////////////////////////////////
     //button pour tester à déroulement effacer
     let buttonTest = document.createElement("button")
@@ -81,53 +80,38 @@ function createHTML() {
     buttonTest.textContent = "test"
     $("body").append(buttonTest)
     buttonTest.addEventListener("click", nextWord)
+
     ///////////////////////////////////////////////////
 }
 
-function main() {
-    createHTML()
-    initWords()
-
-}
-
 //add event listener sur les lettres de l'alphabet
-function addEventListenersAlphabet(){
-    $(".spanAlphabet").one("click",function (e){
+//et réintialise les classe des lettres de l'alphabet lors du relancement des listener
+function addEventListenersAlphabet() {
+    let clickedSpans = document.querySelectorAll(".spanAlphabetClicked")
+    clickedSpans.forEach((e)=>{
+        e.className = "spanAlphabet"
+    })
+    $(".spanAlphabet").one("click", function (e) {
+        //function anonyme qui ajoute les event listeners
         e.currentTarget.className = "spanAlphabetClicked"
 
         let lettreClicker = e.currentTarget.firstChild.id
-
-        console.log(this)
 
         afficheLettre(lettreClicker)
     })
 }
 
-
-function afficheLettre(lettre){
-    console.log(lettre)
-    console.log(currentWord.mot)
+//affiche lettre clické
+function afficheLettre(lettre) {
     let tabIndex = currentWord.contientLettre(lettre)
-    console.log(tabIndex)
-    for(let index of tabIndex){
-        let string = `hiddenLetter${index}`
-        console.log(string)
+
+    tabIndex.forEach((num) => {
+        let string = `hiddenLetter${num}`
         let span = document.getElementById(string)
-        console.log(span)
         span.replaceChildren()
-
-        console.log()
-        let image = createImg(`../images/lettres/${lettre}.gif`,0,0,lettre,lettre)
+        let image = createImg(`images/lettres_mot/${lettre}.gif`, 0, 0, lettre, lettre)
         span.append(image)
-
-    }
-
-
-
-
-
-
-
+    })
 }
 
 
@@ -195,9 +179,16 @@ function nextWord() {
     $("#mot_cache").append(span)
     pickWord()
     initHiddenWord()
+    addEventListenersAlphabet()
+
 
 
 }
 
+//lancement
+function main() {
+    createHTML()
+    initWords()
 
-main()
+}
+$(()=>{main()})
