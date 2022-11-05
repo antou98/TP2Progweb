@@ -83,7 +83,6 @@ function afficheInterfaceHtml() {
     buttonTest.textContent = "test"
     $("body").append(buttonTest)
     buttonTest.addEventListener("click", nextWord)
-
     ///////////////////////////////////////////////////
 }
 
@@ -118,27 +117,31 @@ function afficheLettre(lettre) {
 
 
     if (NB_ESSAIE <= 9 && currentWord.lettresRestantesGET.length === 0) {
+
+        let tab = Array.from(currentWord.mot)
         for (let i = 0; i < currentWord.mot.length; i++) {
             let selector = `#lettre_${i}`
-            let tab = Array.from(currentWord.mot)
             $(selector).prop("src", `images/lettres_verte/${tab[i]}.gif`)
-
         }
-        //document.body.addEventListener("click",nextWord,true)
-
-
+        $("#phylactere").prop("src","images/phylactere_bravo.jpg")
+        //remove event listener
+        $(".spanAlphabet").off("click",)
+        setTimeout('$("#phylactere").prop("src","images/phylactere_rien.jpg")', 2000);
+        setTimeout(nextWord,2000)
     }
     //si dépassé le nombre d'essaie
     else if (NB_ESSAIE >= 9 && currentWord.lettresRestantesGET.length > 0) {
+        let tab = Array.from(currentWord.mot)
         for (let i = 0; i < currentWord.mot.length; i++) {
             let selector = `#lettre_${i}`
-            let tab = Array.from(currentWord.mot)
             $(selector).prop("src", `images/lettres_rouge/${tab[i]}.gif`)
-            $("#dessin").prop("src", "images/bonhomme_pendu_9.jpg")
-
         }
-        //ajoute event listener qui change au prochain mot à la fin de selection
-        //document.body.addEventListener("click",nextWord,true)
+        $("#dessin").prop("src", "images/bonhomme_pendu_9.jpg")
+        //remove event listener
+        $(".spanAlphabet").off("click",)
+        $("#phylactere").prop("src","images/phylactere_desole.jpg")
+        setTimeout('$("#phylactere").prop("src","images/phylactere_rien.jpg")', 2000);
+        setTimeout(nextWord,2000)
 
 
     } else {
@@ -149,6 +152,9 @@ function afficheLettre(lettre) {
             NB_ESSAIE += 1
             console.log(NB_ESSAIE)
 
+            $("#phylactere").prop("src","images/phylactere_zut.jpg")
+            setTimeout('$("#phylactere").prop("src","images/phylactere_rien.jpg")', 2000);
+
 
         } else {
             tabIndex.forEach((num) => {
@@ -156,6 +162,8 @@ function afficheLettre(lettre) {
                 console.log($(string))
                 $(string).prop("src", `images/lettres_mot/${lettre}.gif`)
 
+                $("#phylactere").prop("src","images/phylactere_super.jpg")
+                setTimeout('$("#phylactere").prop("src","images/phylactere_rien.jpg")', 2000);
             })
         }
     }
@@ -165,6 +173,7 @@ function afficheLettre(lettre) {
 function initWords() {
     let mots_source = []
     let setIndex = new Set()
+    //nb de mot dans le jeu
     let nbEssaies = 7
 
 
@@ -172,18 +181,17 @@ function initWords() {
         mots_source.push(motsSources[cle])
     }
 
+
     do {
         let randomInt = Math.trunc(Math.random() * 15)
         setIndex.add(randomInt)
     } while (setIndex.size < nbEssaies)
 
     setIndex.forEach((value) => {
-        console.log(value)
-        MOTS_JEUX.push(mots_source[value])
-    })
-    pickWord()
-    initHiddenWord()
 
+        MOTS_JEUX.push(new Mot(mots_source[value]))
+    })
+    console.log(MOTS_JEUX)
 }
 
 //choisi un mot random dans MOTS_JEUX
@@ -193,14 +201,19 @@ function pickWord() {
     }
 
     let random = Math.floor(Math.random() * (MOTS_JEUX.length - 1));
-    currentWord = new Mot(MOTS_JEUX[random]);
+
+    currentWord = MOTS_JEUX[random];
     MOTS_JEUX.splice(random, 1);
 
+    $("#phylactere").prop("src","images/phylactere_intro.jpg")
 }
 
 //intialise un mot caché
 function initHiddenWord() {
-    console.log(currentWord.motLength())
+
+    //console.log(currentWord.motLength())
+
+
     for (let x = 1; x < currentWord.motLength(); x++) {
         let newHiddenLetter = document.getElementById("hiddenLetter0").cloneNode(true);
         newHiddenLetter.firstChild.id = `lettre_${(x)}`;
@@ -211,24 +224,29 @@ function initHiddenWord() {
 
 //initialise un nouveau mot
 function nextWord() {
-
     let span = createFirstSpan()
     let mot_cache = document.getElementById("mot_cache")
     while (mot_cache.firstChild) {
         mot_cache.removeChild(mot_cache.lastChild)
     }
-    $("#mot_cache").append(span)
+    console.log(MOTS_JEUX)
     pickWord()
+
+    $("#mot_cache").append(span)
+
     initHiddenWord()
     addEventListenersAlphabet()
     $("#dessin").prop("src", `images/bonhomme_pendu_0.jpg`)
     NB_ESSAIE = 1
 }
 
-//lancement
+//lancement initial de l'application
 function main() {
     afficheInterfaceHtml()
     initWords()
+    pickWord()
+    initHiddenWord()
+    console.log(MOTS_JEUX)
 
 }
 
