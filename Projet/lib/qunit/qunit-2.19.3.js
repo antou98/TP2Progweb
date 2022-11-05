@@ -125,8 +125,8 @@
       throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
     }
     var normalCompletion = true,
-      didErr = false,
-      err;
+        didErr = false,
+        err;
     return {
       s: function () {
         it = it.call(o);
@@ -530,8 +530,8 @@
     },
     regexp: function regexp(a, b) {
       return a.source === b.source &&
-      // Include flags in the comparison
-      getRegExpFlags(a) === getRegExpFlags(b);
+          // Include flags in the comparison
+          getRegExpFlags(a) === getRegExpFlags(b);
     },
     // identical reference only
     function: useStrictEquality,
@@ -881,10 +881,10 @@
     }
     function isArray(obj) {
       return (
-        // Native Arrays
-        toString.call(obj) === '[object Array]' ||
-        // NodeList objects
-        typeof obj.length === 'number' && obj.item !== undefined && (obj.length ? obj.item(0) === obj[0] : obj.item(0) === null && obj[0] === undefined)
+          // Native Arrays
+          toString.call(obj) === '[object Array]' ||
+          // NodeList objects
+          typeof obj.length === 'number' && obj.item !== undefined && (obj.length ? obj.item(0) === obj[0] : obj.item(0) === null && obj[0] === undefined)
       );
     }
     var reName = /^function (\w+)/;
@@ -1193,10 +1193,10 @@
       key: "getStatus",
       value: function getStatus() {
         var _this$getTestCounts = this.getTestCounts(),
-          total = _this$getTestCounts.total,
-          failed = _this$getTestCounts.failed,
-          skipped = _this$getTestCounts.skipped,
-          todo = _this$getTestCounts.todo;
+            total = _this$getTestCounts.total,
+            failed = _this$getTestCounts.failed,
+            skipped = _this$getTestCounts.skipped,
+            todo = _this$getTestCounts.todo;
         if (failed) {
           return 'failed';
         } else {
@@ -1366,9 +1366,9 @@
   // Doesn't support IE9, it will return undefined on these browsers
   // See also https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Error/Stack
   var fileName = (sourceFromStacktrace(0) || '').replace(/(:\d+)+\)?/, '')
-  // Remove anything prior to the last slash (Unix/Windows)
-  // from the last frame
-  .replace(/.+[/\\]/, '');
+      // Remove anything prior to the last slash (Unix/Windows)
+      // from the last frame
+      .replace(/.+[/\\]/, '');
   function extractStacktrace(e, offset) {
     offset = offset === undefined ? 4 : offset;
     if (e && e.stack) {
@@ -1775,8 +1775,8 @@
       }
     }
     var valid = !expected ||
-    // TODO: be more explicit here
-    expectedType === 'regexp' || expectedType === 'function' || expectedType === 'object';
+        // TODO: be more explicit here
+        expectedType === 'regexp' || expectedType === 'function' || expectedType === 'object';
     if (!valid) {
       throw new Error('Invalid expected value type (' + expectedType + ') ' + 'provided to assert.' + assertionMethod + '.');
     }
@@ -1890,7 +1890,7 @@
   var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
   function commonjsRequire (path) {
-  	throw new Error('Could not dynamically require "' + path + '". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.');
+    throw new Error('Could not dynamically require "' + path + '". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.');
   }
 
   var promisePolyfill = {exports: {}};
@@ -2186,13 +2186,13 @@
 
     // Use polyfill for setImmediate for performance gains
     Promise._immediateFn =
-    // @ts-ignore
-    typeof setImmediate === 'function' && function (fn) {
-      // @ts-ignore
-      setImmediate(fn);
-    } || function (fn) {
-      setTimeoutFunc(fn, 0);
-    };
+        // @ts-ignore
+        typeof setImmediate === 'function' && function (fn) {
+          // @ts-ignore
+          setImmediate(fn);
+        } || function (fn) {
+          setTimeoutFunc(fn, 0);
+        };
     Promise._unhandledRejectionFn = function _unhandledRejectionFn(err) {
       if (typeof console !== 'undefined' && console) {
         console.warn('Possible Unhandled Promise Rejection:', err); // eslint-disable-line no-console
@@ -3206,8 +3206,8 @@
       }
       function moduleChainIdMatch(testModule, selectedId) {
         return (
-          // undefined or empty array
-          !selectedId || !selectedId.length || inArray(testModule.moduleId, selectedId) || testModule.parentModule && moduleChainIdMatch(testModule.parentModule, selectedId)
+            // undefined or empty array
+            !selectedId || !selectedId.length || inArray(testModule.moduleId, selectedId) || testModule.parentModule && moduleChainIdMatch(testModule.parentModule, selectedId)
         );
       }
       if (!moduleChainIdMatch(this.module, config.moduleId)) {
@@ -3577,10 +3577,10 @@
   }();
 
   var FORCE_COLOR,
-    NODE_DISABLE_COLORS,
-    NO_COLOR,
-    TERM,
-    isTTY = true;
+      NODE_DISABLE_COLORS,
+      NO_COLOR,
+      TERM,
+      isTTY = true;
   if (typeof process !== 'undefined') {
     var _ref = process.env || {};
     FORCE_COLOR = _ref.FORCE_COLOR;
@@ -3623,9 +3623,9 @@
   };
   function run(arr, str) {
     var i = 0,
-      tmp,
-      beg = '',
-      end = '';
+        tmp,
+        beg = '',
+        end = '';
     for (; i < arr.length; i++) {
       tmp = arr[i];
       beg += tmp.open;
@@ -3777,11 +3777,11 @@
           // without any "Chomping" indicators.
           var lines = value
 
-          // Ignore the last new line, since we'll get that one for free
-          // with the straight-forward Block syntax.
-          .replace(/\n$/, '').split('\n').map(function (line) {
-            return prefix + line;
-          });
+              // Ignore the last new line, since we'll get that one for free
+              // with the straight-forward Block syntax.
+              .replace(/\n$/, '').split('\n').map(function (line) {
+                return prefix + line;
+              });
           return '|\n' + lines.join('\n');
         } else {
           // This has either no trailing new lines, or more than 1.
@@ -5029,8 +5029,8 @@
       // Hacked version of https://github.com/lemire/FastPriorityQueue.js
       var fastpriorityqueue = function fastpriorityqueue() {
         var r = [],
-          o = 0,
-          e = {};
+            o = 0,
+            e = {};
         function n() {
           for (var e = 0, n = r[e], c = 1; c < o;) {
             var f = c + 1;
@@ -5262,7 +5262,7 @@
               }
             }
             var _iterator = _createForOfIteratorHelper(hiddenTests),
-              _step;
+                _step;
             try {
               for (_iterator.s(); !(_step = _iterator.n()).done;) {
                 var hiddenTest = _step.value;

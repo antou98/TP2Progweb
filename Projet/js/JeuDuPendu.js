@@ -123,11 +123,11 @@ function afficheLettre(lettre) {
             let selector = `#lettre_${i}`
             $(selector).prop("src", `images/lettres_verte/${tab[i]}.gif`)
         }
-        $("#phylactere").prop("src","images/phylactere_bravo.jpg")
+        $("#phylactere").prop("src", "images/phylactere_bravo.jpg")
         //remove event listener
         $(".spanAlphabet").off("click",)
         setTimeout('$("#phylactere").prop("src","images/phylactere_rien.jpg")', 2000);
-        setTimeout(nextWord,2000)
+        setTimeout(nextWord, 2000)
     }
     //si dépassé le nombre d'essaie
     else if (NB_ESSAIE >= 9 && currentWord.lettresRestantesGET.length > 0) {
@@ -139,9 +139,9 @@ function afficheLettre(lettre) {
         $("#dessin").prop("src", "images/bonhomme_pendu_9.jpg")
         //remove event listener
         $(".spanAlphabet").off("click",)
-        $("#phylactere").prop("src","images/phylactere_desole.jpg")
+        $("#phylactere").prop("src", "images/phylactere_desole.jpg")
         setTimeout('$("#phylactere").prop("src","images/phylactere_rien.jpg")', 2000);
-        setTimeout(nextWord,2000)
+        setTimeout(nextWord, 2000)
 
 
     } else {
@@ -152,7 +152,7 @@ function afficheLettre(lettre) {
             NB_ESSAIE += 1
             console.log(NB_ESSAIE)
 
-            $("#phylactere").prop("src","images/phylactere_zut.jpg")
+            $("#phylactere").prop("src", "images/phylactere_zut.jpg")
             setTimeout('$("#phylactere").prop("src","images/phylactere_rien.jpg")', 2000);
 
 
@@ -162,7 +162,7 @@ function afficheLettre(lettre) {
                 console.log($(string))
                 $(string).prop("src", `images/lettres_mot/${lettre}.gif`)
 
-                $("#phylactere").prop("src","images/phylactere_super.jpg")
+                $("#phylactere").prop("src", "images/phylactere_super.jpg")
                 setTimeout('$("#phylactere").prop("src","images/phylactere_rien.jpg")', 2000);
             })
         }
@@ -176,11 +176,9 @@ function initWords() {
     //nb de mot dans le jeu
     let nbEssaies = 7
 
-
     for (let cle in motsSources) {
         mots_source.push(motsSources[cle])
     }
-
 
     do {
         let randomInt = Math.trunc(Math.random() * 15)
@@ -188,7 +186,6 @@ function initWords() {
     } while (setIndex.size < nbEssaies)
 
     setIndex.forEach((value) => {
-
         MOTS_JEUX.push(new Mot(mots_source[value]))
     })
     console.log(MOTS_JEUX)
@@ -201,18 +198,13 @@ function pickWord() {
     }
 
     let random = Math.floor(Math.random() * (MOTS_JEUX.length - 1));
-
     currentWord = MOTS_JEUX[random];
     MOTS_JEUX.splice(random, 1);
-
-    $("#phylactere").prop("src","images/phylactere_intro.jpg")
+    $("#phylactere").prop("src", "images/phylactere_intro.jpg")
 }
 
 //intialise un mot caché
 function initHiddenWord() {
-
-    //console.log(currentWord.motLength())
-
 
     for (let x = 1; x < currentWord.motLength(); x++) {
         let newHiddenLetter = document.getElementById("hiddenLetter0").cloneNode(true);
