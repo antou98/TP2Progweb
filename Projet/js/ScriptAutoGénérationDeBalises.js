@@ -9,7 +9,7 @@ function createImg(src, width, height, alt, id) {
     img.id = id
 
     if (width === 0 && height === 0) {
-        console.log("span")
+        console.log("img for span")
     } else {
         img.width = width
         img.height = height

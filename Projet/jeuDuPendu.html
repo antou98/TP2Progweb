@@ -28,15 +28,16 @@
         }
 
         function wink() {
-            document.getElementById("personnage").src = "images/personnage_2.jpg";
-            var t = setTimeout('document.getElementById("personnage").src = "images/personnage_1.jpg";', 400);
+            setTimeout($("#personnage").prop("src","Projet/images/personnage_2.jpg"),400)
+            $("#personnage").prop("src","Projet/images/personnage_1.jpg")
+
             winkLoop();
         }
 
         function winkLoop() {
-            if (1 == 1) {
-                var u = setTimeout('wink();', rdm_delay());
-            }
+            let delay = Math.floor(Math.random() * 4000) + 2000;
+            setTimeout(wink,delay)
+
         }
 
         function isInArray(theItem, theArray) {

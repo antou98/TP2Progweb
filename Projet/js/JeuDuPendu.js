@@ -76,19 +76,19 @@ function afficheInterfaceHtml() {
     addEventListenersAlphabet()
 
 
-    ///////////////////////////////////////////////////
-    //button pour tester à déroulement effacer
-    let buttonTest = document.createElement("button")
-    buttonTest.id = "buttonTest"
-    buttonTest.textContent = "test"
-    $("body").append(buttonTest)
-    buttonTest.addEventListener("click", nextWord)
-    ///////////////////////////////////////////////////
+    // ///////////////////////////////////////////////////
+    // //button pour tester à déroulement effacer
+    // let buttonTest = document.createElement("button")
+    // buttonTest.id = "buttonTest"
+    // buttonTest.textContent = "test"
+    // $("body").append(buttonTest)
+    // buttonTest.addEventListener("click", nextWord)
+    // ///////////////////////////////////////////////////
 }
 
 //variable globale à modifier
 let MOTS_JEUX = []
-let currentWord;
+let MOT_ACTUEL;
 let NB_ESSAIE = 1
 
 //add event listener sur les lettres de l'alphabet
@@ -112,14 +112,13 @@ function addEventListenersAlphabet() {
 //affiche lettre clické
 function afficheLettre(lettre) {
 
-    let tabIndex = currentWord.contientLettre(lettre)
-    console.log(tabIndex)
+    let tabIndex = MOT_ACTUEL.contientLettre(lettre)
 
-
-    if (NB_ESSAIE <= 9 && currentWord.lettresRestantesGET.length === 0) {
-
-        let tab = Array.from(currentWord.mot)
-        for (let i = 0; i < currentWord.mot.length; i++) {
+    //si mot est bon
+    if (NB_ESSAIE <= 9 && MOT_ACTUEL.lettresRestantesGET.length === 0) {
+        let tab = Array.from(MOT_ACTUEL.mot)
+        //lettres verte
+        for (let i = 0; i < MOT_ACTUEL.mot.length; i++) {
             let selector = `#lettre_${i}`
             $(selector).prop("src", `images/lettres_verte/${tab[i]}.gif`)
         }
@@ -128,11 +127,14 @@ function afficheLettre(lettre) {
         $(".spanAlphabet").off("click",)
         setTimeout('$("#phylactere").prop("src","images/phylactere_rien.jpg")', 2000);
         setTimeout(nextWord, 2000)
+        //si il ne reste plus de mot dans MOTS_JEUX
+        MOTS_JEUX.length===0 ? console.log("fin jeux"):setTimeout(nextWord, 2000)
     }
     //si dépassé le nombre d'essaie
-    else if (NB_ESSAIE >= 9 && currentWord.lettresRestantesGET.length > 0) {
-        let tab = Array.from(currentWord.mot)
-        for (let i = 0; i < currentWord.mot.length; i++) {
+    else if (NB_ESSAIE >= 9 && MOT_ACTUEL.lettresRestantesGET.length > 0) {
+        let tab = Array.from(MOT_ACTUEL.mot)
+        //lettres rouge
+        for (let i = 0; i < MOT_ACTUEL.mot.length; i++) {
             let selector = `#lettre_${i}`
             $(selector).prop("src", `images/lettres_rouge/${tab[i]}.gif`)
         }
@@ -142,15 +144,16 @@ function afficheLettre(lettre) {
         $("#phylactere").prop("src", "images/phylactere_desole.jpg")
         setTimeout('$("#phylactere").prop("src","images/phylactere_rien.jpg")', 2000);
         setTimeout(nextWord, 2000)
+        //si il ne reste plus de mot dans MOTS_JEUX
+        MOTS_JEUX.length===0 ? console.log("fin jeux"):setTimeout(nextWord, 2000)
 
 
     } else {
         if (tabIndex.length < 1) {
             let pathImg = `images/bonhomme_pendu_${NB_ESSAIE}.jpg`
-            console.log(pathImg)
             $("#dessin").prop("src", pathImg)
             NB_ESSAIE += 1
-            console.log(NB_ESSAIE)
+
 
             $("#phylactere").prop("src", "images/phylactere_zut.jpg")
             setTimeout('$("#phylactere").prop("src","images/phylactere_rien.jpg")', 2000);
@@ -159,7 +162,6 @@ function afficheLettre(lettre) {
         } else {
             tabIndex.forEach((num) => {
                 let string = `#lettre_${num}`
-                console.log($(string))
                 $(string).prop("src", `images/lettres_mot/${lettre}.gif`)
 
                 $("#phylactere").prop("src", "images/phylactere_super.jpg")
@@ -188,7 +190,7 @@ function initWords() {
     setIndex.forEach((value) => {
         MOTS_JEUX.push(new Mot(mots_source[value]))
     })
-    console.log(MOTS_JEUX)
+
 }
 
 //choisi un mot random dans MOTS_JEUX
@@ -198,7 +200,7 @@ function pickWord() {
     }
 
     let random = Math.floor(Math.random() * (MOTS_JEUX.length - 1));
-    currentWord = MOTS_JEUX[random];
+    MOT_ACTUEL = MOTS_JEUX[random];
     MOTS_JEUX.splice(random, 1);
     $("#phylactere").prop("src", "images/phylactere_intro.jpg")
 }
@@ -206,7 +208,7 @@ function pickWord() {
 //intialise un mot caché
 function initHiddenWord() {
 
-    for (let x = 1; x < currentWord.motLength(); x++) {
+    for (let x = 1; x < MOT_ACTUEL.motLength(); x++) {
         let newHiddenLetter = document.getElementById("hiddenLetter0").cloneNode(true);
         newHiddenLetter.firstChild.id = `lettre_${(x)}`;
         newHiddenLetter.id = `hiddenLetter${(x)}`;
@@ -221,7 +223,6 @@ function nextWord() {
     while (mot_cache.firstChild) {
         mot_cache.removeChild(mot_cache.lastChild)
     }
-    console.log(MOTS_JEUX)
     pickWord()
 
     $("#mot_cache").append(span)
@@ -238,9 +239,24 @@ function main() {
     initWords()
     pickWord()
     initHiddenWord()
-    console.log(MOTS_JEUX)
+    wink()
 
 }
+
+
+//fonctions qui gèrent le wink du personnage
+function wink() {
+    $("#personnage").prop("src","images/personnage_2.jpg")
+    setTimeout(()=>{$("#personnage").prop("src","images/personnage_1.jpg")},400)
+    winkLoop();
+}
+
+function winkLoop() {
+    let delay = Math.floor(Math.random() * 4000) + 2000;
+    setTimeout(wink,delay)
+
+}
+
 
 $(() => {
     main()
