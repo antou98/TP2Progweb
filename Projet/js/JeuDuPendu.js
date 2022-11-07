@@ -76,6 +76,25 @@ function afficheInterfaceHtml() {
     addEventListenersAlphabet()
 
 
+    //création div joueur info
+    let divJoueur = document.createElement("div")
+    divJoueur.id = "divJoueur"
+
+    $("#divPrincipal").append(divJoueur)
+     let spanPointsPossible = document.createElement("span")
+    spanPointsPossible.id = "pointsPossible"
+    spanPointsPossible.append(document.createTextNode("9/9"))
+
+    let paraJoueur = document.createElement("p")
+    paraJoueur.id = "idParaJoueur"
+
+    $("#divJoueur").html("Points possibles : ").append(spanPointsPossible,'<br/>',paraJoueur)
+
+    $("#idParaJoueur").html("Vous avez pris"+ '<span> 0 minute</span>'+'<span> 0 seconde</span>'+" pour découvrir "+ '<span> 0 mot</span>'+" sur "+'<span> 0 essaie </span>'+", ce qui vous a donné "+'<span> 0 point.</span>')
+
+
+
+
     // ///////////////////////////////////////////////////
     // //button pour tester à déroulement effacer
     // let buttonTest = document.createElement("button")
@@ -126,9 +145,12 @@ function afficheLettre(lettre) {
         //remove event listener
         $(".spanAlphabet").off("click",)
         setTimeout('$("#phylactere").prop("src","images/phylactere_rien.jpg")', 2000);
-        setTimeout(nextWord, 2000)
+
         //si il ne reste plus de mot dans MOTS_JEUX
-        MOTS_JEUX.length===0 ? console.log("fin jeux"):setTimeout(nextWord, 2000)
+        //afficheTexteJoueur()
+        MOTS_JEUX.length===0 ? console.log("fin  jeux"):setTimeout(nextWord, 2000)
+
+        setTimeout(nextWord, 2000)
     }
     //si dépassé le nombre d'essaie
     else if (NB_ESSAIE >= 9 && MOT_ACTUEL.lettresRestantesGET.length > 0) {
@@ -143,9 +165,13 @@ function afficheLettre(lettre) {
         $(".spanAlphabet").off("click",)
         $("#phylactere").prop("src", "images/phylactere_desole.jpg")
         setTimeout('$("#phylactere").prop("src","images/phylactere_rien.jpg")', 2000);
-        setTimeout(nextWord, 2000)
+
+
         //si il ne reste plus de mot dans MOTS_JEUX
-        MOTS_JEUX.length===0 ? console.log("fin jeux"):setTimeout(nextWord, 2000)
+        //afficheTexteJoueur()
+        MOTS_JEUX.length===0 ? console.log("fin  jeux"):setTimeout(nextWord, 2000)
+
+        setTimeout(nextWord, 2000)
 
 
     } else {
@@ -233,17 +259,6 @@ function nextWord() {
     NB_ESSAIE = 1
 }
 
-//lancement initial de l'application
-function main() {
-    afficheInterfaceHtml()
-    initWords()
-    pickWord()
-    initHiddenWord()
-    wink()
-
-}
-
-
 //fonctions qui gèrent le wink du personnage
 function wink() {
     $("#personnage").prop("src","images/personnage_2.jpg")
@@ -256,7 +271,60 @@ function winkLoop() {
     setTimeout(wink,delay)
 
 }
+let minutes =0
+let seconds = 0
+function timer(){
+    setTimeout(()=>{
 
+        if (seconds<59){
+            seconds+=1
+        }
+        else {
+            minutes+=1
+            seconds=0
+        }
+        console.log(`${minutes} : ${seconds}`)
+        timer()
+
+    },999)
+
+
+}
+
+
+function afficheTexteJoueur(){
+    let point = 8
+
+    $('#pointsPossible').html(`${point}/9`)
+    let spanIndex =0;
+    let nbMotsEssaye =0
+    let nbPoints = 0
+    let tab = [`${minutes} minutes`,`${seconds} secondes`, `${nbMotsEssaye} mots`, `${7} essaies`, `${nbPoints} points` ]
+    $('#idParaJoueur >span').each((span)=>{
+        console.log(tab[spanIndex])
+        console.log(span)
+        console.log(this)
+        span.textContent = ""
+        span.textContent = String(tab[spanIndex])
+        spanIndex++;
+
+    })
+
+
+
+
+
+}
+//lancement initial de l'application
+function main() {
+    timer()
+    afficheInterfaceHtml()
+    initWords()
+    pickWord()
+    initHiddenWord()
+    wink()
+
+}
 
 $(() => {
     main()

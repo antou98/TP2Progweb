@@ -1,60 +1,69 @@
-body{
+body {
     margin: 0;
     margin-top: 35px;
     height: 100%;
     width: 100%;
 }
 
-#divPrincipal{
+#divPrincipal {
     width: 100%;
-    background: lightgray;
-
 }
 
-table{
+
+table {
     width: 675px;
     border: 0;
     padding: 0;
     border-spacing: 0;
     border-collapse: collapse;
-
 }
-tr,td{
+
+tr, td {
 
     border: none;
     padding: 0;
-
 }
-#dessin{
+
+#dessin {
     width: 400px;
 }
-#phylactere{
+
+#phylactere {
     width: 277px;
 }
-#personnage{
+
+#personnage {
     width: 275px;
     height: 243px;
 }
-#mot_cache{
-    width:500px;
-    position:absolute;
-    left:15px;
-    top:426px;
-    text-align:center;
+
+#mot_cache {
+    width: 500px;
+    position: absolute;
+    left: 15px;
+    top: 426px;
+    text-align: center;
 }
-#alphabet{
-    width:500px;
-    position:absolute;
-    left:15px;
-    top:475px;
-    text-align:center;
+
+#alphabet {
+    width: 500px;
+    position: absolute;
+    left: 15px;
+    top: 475px;
+    text-align: center;
 }
-.spanAlphabet{
-    margin-right:10px;
+
+.spanAlphabet {
+    margin-right: 10px;
     cursor: pointer;
 }
-.spanAlphabetClicked{
-    margin-right:10px;
+
+.spanAlphabetClicked {
+    margin-right: 10px;
     opacity: 20%;
+}
+#divJoueur{
+    color: #2F68DA;
+    font-size: larger;
 }
 
