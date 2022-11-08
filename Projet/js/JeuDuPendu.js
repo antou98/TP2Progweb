@@ -91,7 +91,9 @@ function afficheInterfaceHtml() {
     $("#divJoueur").html("Points possibles : ").append(spanPointsPossible,'<br/>',paraJoueur)
 
     $("#idParaJoueur").html("Vous avez pris"+ '<span> 0 minute</span>'+'<span> 0 seconde</span>'+" pour découvrir "+ '<span> 0 mot</span>'+" sur "+'<span> 0 essaie </span>'+", ce qui vous a donné "+'<span> 0 point.</span>')
-
+    let i=1
+    let spans = document.querySelectorAll("#idParaJoueur > span")
+    spans.forEach((span)=>{span.id=String(i);i++;})
 
 
 
@@ -109,6 +111,7 @@ function afficheInterfaceHtml() {
 let MOTS_JEUX = []
 let MOT_ACTUEL;
 let NB_ESSAIE = 1
+let JOUEUR ;
 
 //add event listener sur les lettres de l'alphabet
 //et réintialise les classe des lettres de l'alphabet lors du relancement des listener
@@ -146,10 +149,13 @@ function afficheLettre(lettre) {
         $(".spanAlphabet").off("click",)
         setTimeout('$("#phylactere").prop("src","images/phylactere_rien.jpg")', 2000);
 
-        //si il ne reste plus de mot dans MOTS_JEUX
+        JOUEUR.incrementeMotTentative()
+        JOUEUR.incrementeMotReussi()
+        JOUEUR.pointageTotalAddition()
         //afficheTexteJoueur()
-        MOTS_JEUX.length===0 ? console.log("fin  jeux"):setTimeout(nextWord, 2000)
-
+        //réinitialise mots du jeux
+        MOTS_JEUX.length===1 ? initWords():setTimeout(nextWord, 2000)
+        afficheTexteJoueur()
         setTimeout(nextWord, 2000)
     }
     //si dépassé le nombre d'essaie
@@ -165,12 +171,14 @@ function afficheLettre(lettre) {
         $(".spanAlphabet").off("click",)
         $("#phylactere").prop("src", "images/phylactere_desole.jpg")
         setTimeout('$("#phylactere").prop("src","images/phylactere_rien.jpg")', 2000);
+        JOUEUR.decrementePointage()
 
+        JOUEUR.incrementeMotTentative()
 
-        //si il ne reste plus de mot dans MOTS_JEUX
         //afficheTexteJoueur()
-        MOTS_JEUX.length===0 ? console.log("fin  jeux"):setTimeout(nextWord, 2000)
-
+        //réinitialise mots du jeux
+        MOTS_JEUX.length===1 ? initWords():setTimeout(nextWord, 2000)
+        afficheTexteJoueur()
         setTimeout(nextWord, 2000)
 
 
@@ -178,8 +186,10 @@ function afficheLettre(lettre) {
         if (tabIndex.length < 1) {
             let pathImg = `images/bonhomme_pendu_${NB_ESSAIE}.jpg`
             $("#dessin").prop("src", pathImg)
-            NB_ESSAIE += 1
 
+            NB_ESSAIE += 1
+            JOUEUR.decrementePointage()
+            afficheTexteJoueur()
 
             $("#phylactere").prop("src", "images/phylactere_zut.jpg")
             setTimeout('$("#phylactere").prop("src","images/phylactere_rien.jpg")', 2000);
@@ -189,6 +199,7 @@ function afficheLettre(lettre) {
             tabIndex.forEach((num) => {
                 let string = `#lettre_${num}`
                 $(string).prop("src", `images/lettres_mot/${lettre}.gif`)
+                afficheTexteJoueur()
 
                 $("#phylactere").prop("src", "images/phylactere_super.jpg")
                 setTimeout('$("#phylactere").prop("src","images/phylactere_rien.jpg")', 2000);
@@ -197,12 +208,12 @@ function afficheLettre(lettre) {
     }
 }
 
-//lancement des fonctions du jeu
+//lancement d'un tableau de mot 10 différent
 function initWords() {
     let mots_source = []
     let setIndex = new Set()
     //nb de mot dans le jeu
-    let nbEssaies = 7
+    let nbEssaies = 10
 
     for (let cle in motsSources) {
         mots_source.push(motsSources[cle])
@@ -221,9 +232,6 @@ function initWords() {
 
 //choisi un mot random dans MOTS_JEUX
 function pickWord() {
-    if (MOTS_JEUX.length === 0) {
-        //affiche le résultat
-    }
 
     let random = Math.floor(Math.random() * (MOTS_JEUX.length - 1));
     MOT_ACTUEL = MOTS_JEUX[random];
@@ -257,6 +265,7 @@ function nextWord() {
     addEventListenersAlphabet()
     $("#dessin").prop("src", `images/bonhomme_pendu_0.jpg`)
     NB_ESSAIE = 1
+    JOUEUR.setpointage(9)
 }
 
 //fonctions qui gèrent le wink du personnage
@@ -271,44 +280,19 @@ function winkLoop() {
     setTimeout(wink,delay)
 
 }
-let minutes =0
-let seconds = 0
-function timer(){
-    setTimeout(()=>{
 
-        if (seconds<59){
-            seconds+=1
-        }
-        else {
-            minutes+=1
-            seconds=0
-        }
-        console.log(`${minutes} : ${seconds}`)
-        timer()
-
-    },999)
-
-
-}
 
 
 function afficheTexteJoueur(){
-    let point = 8
 
-    $('#pointsPossible').html(`${point}/9`)
+
+    $('#pointsPossible').html(`${JOUEUR.pointage}/9`)
     let spanIndex =0;
     let nbMotsEssaye =0
     let nbPoints = 0
-    let tab = [`${minutes} minutes`,`${seconds} secondes`, `${nbMotsEssaye} mots`, `${7} essaies`, `${nbPoints} points` ]
-    $('#idParaJoueur >span').each((span)=>{
-        console.log(tab[spanIndex])
-        console.log(span)
-        console.log(this)
-        span.textContent = ""
-        span.textContent = String(tab[spanIndex])
-        spanIndex++;
-
-    })
+    let tab = [` ${JOUEUR.minutes} minutes`,` ${JOUEUR.secondes} secondes`, ` ${JOUEUR.motReussi} mots`, ` ${JOUEUR.motTentative} essaies`, ` ${JOUEUR.pointageTotal} points` ]
+    let spansPara= document.querySelectorAll("#idParaJoueur span")
+    spansPara.forEach((span)=>{span.innerHTML=tab[spanIndex];spanIndex++;})
 
 
 
@@ -317,12 +301,15 @@ function afficheTexteJoueur(){
 }
 //lancement initial de l'application
 function main() {
-    timer()
+
+    JOUEUR = new Joueur();
     afficheInterfaceHtml()
     initWords()
     pickWord()
     initHiddenWord()
     wink()
+    $('body').one("click",()=>{JOUEUR.timer();})
+
 
 }
 
