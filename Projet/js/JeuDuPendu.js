@@ -81,20 +81,22 @@ function afficheInterfaceHtml() {
     divJoueur.id = "divJoueur"
 
     $("#divPrincipal").append(divJoueur)
-     let spanPointsPossible = document.createElement("span")
+    let spanPointsPossible = document.createElement("span")
     spanPointsPossible.id = "pointsPossible"
     spanPointsPossible.append(document.createTextNode("9/9"))
 
     let paraJoueur = document.createElement("p")
     paraJoueur.id = "idParaJoueur"
 
-    $("#divJoueur").html("Points possibles : ").append(spanPointsPossible,'<br/>',paraJoueur)
+    $("#divJoueur").html("Points possibles : ").append(spanPointsPossible, '<br/>', paraJoueur)
 
-    $("#idParaJoueur").html("Vous avez pris"+ '<span> 0 minute</span>'+'<span> 0 seconde</span>'+" pour découvrir "+ '<span> 0 mot</span>'+" sur "+'<span> 0 essaie </span>'+", ce qui vous a donné "+'<span> 0 point.</span>')
-    let i=1
+    $("#idParaJoueur").html("Vous avez pris" + '<span> 0 minute</span>' + '<span> 0 seconde</span>' + " pour découvrir " + '<span> 0 mot</span>' + " sur " + '<span> 0 essaie </span>' + ", ce qui vous a donné " + '<span> 0 point.</span>')
+    let i = 1
     let spans = document.querySelectorAll("#idParaJoueur > span")
-    spans.forEach((span)=>{span.id=String(i);i++;})
-
+    spans.forEach((span) => {
+        span.id = String(i);
+        i++;
+    })
 
 
     // ///////////////////////////////////////////////////
@@ -111,7 +113,7 @@ function afficheInterfaceHtml() {
 let MOTS_JEUX = []
 let MOT_ACTUEL;
 let NB_ESSAIE = 1
-let JOUEUR ;
+let JOUEUR;
 
 //add event listener sur les lettres de l'alphabet
 //et réintialise les classe des lettres de l'alphabet lors du relancement des listener
@@ -154,7 +156,7 @@ function afficheLettre(lettre) {
         JOUEUR.pointageTotalAddition()
         //afficheTexteJoueur()
         //réinitialise mots du jeux
-        MOTS_JEUX.length===1 ? initWords():setTimeout(nextWord, 2000)
+        MOTS_JEUX.length === 1 ? initWords() : setTimeout(nextWord, 2000)
         afficheTexteJoueur()
         setTimeout(nextWord, 2000)
     }
@@ -177,7 +179,7 @@ function afficheLettre(lettre) {
 
         //afficheTexteJoueur()
         //réinitialise mots du jeux
-        MOTS_JEUX.length===1 ? initWords():setTimeout(nextWord, 2000)
+        MOTS_JEUX.length === 1 ? initWords() : setTimeout(nextWord, 2000)
         afficheTexteJoueur()
         setTimeout(nextWord, 2000)
 
@@ -213,7 +215,7 @@ function initWords() {
     let mots_source = []
     let setIndex = new Set()
     //nb de mot dans le jeu
-    let nbEssaies = 10
+    let nbEssaies = 15
 
     for (let cle in motsSources) {
         mots_source.push(motsSources[cle])
@@ -228,6 +230,7 @@ function initWords() {
         MOTS_JEUX.push(new Mot(mots_source[value]))
     })
 
+    console.log(MOTS_JEUX)
 }
 
 //choisi un mot random dans MOTS_JEUX
@@ -270,35 +273,30 @@ function nextWord() {
 
 //fonctions qui gèrent le wink du personnage
 function wink() {
-    $("#personnage").prop("src","images/personnage_2.jpg")
-    setTimeout(()=>{$("#personnage").prop("src","images/personnage_1.jpg")},400)
+    $("#personnage").prop("src", "images/personnage_2.jpg")
+    setTimeout(() => {
+        $("#personnage").prop("src", "images/personnage_1.jpg")
+    }, 400)
     winkLoop();
 }
 
 function winkLoop() {
     let delay = Math.floor(Math.random() * 4000) + 2000;
-    setTimeout(wink,delay)
+    setTimeout(wink, delay)
 
 }
 
-
-
-function afficheTexteJoueur(){
-
-
+function afficheTexteJoueur() {
     $('#pointsPossible').html(`${JOUEUR.pointage}/9`)
-    let spanIndex =0;
-    let nbMotsEssaye =0
-    let nbPoints = 0
-    let tab = [` ${JOUEUR.minutes} minutes`,` ${JOUEUR.secondes} secondes`, ` ${JOUEUR.motReussi} mots`, ` ${JOUEUR.motTentative} essaies`, ` ${JOUEUR.pointageTotal} points` ]
-    let spansPara= document.querySelectorAll("#idParaJoueur span")
-    spansPara.forEach((span)=>{span.innerHTML=tab[spanIndex];spanIndex++;})
-
-
-
-
-
+    let spanIndex = 0;
+    let tab = [` ${JOUEUR.minutes} minutes`, ` ${JOUEUR.secondes} secondes`, ` ${JOUEUR.motReussi} mots`, ` ${JOUEUR.motTentative} essaies`, ` ${JOUEUR.pointageTotal} points`]
+    let spansPara = document.querySelectorAll("#idParaJoueur span")
+    spansPara.forEach((span) => {
+        span.innerHTML = tab[spanIndex];
+        spanIndex++;
+    })
 }
+
 //lancement initial de l'application
 function main() {
 
@@ -308,8 +306,9 @@ function main() {
     pickWord()
     initHiddenWord()
     wink()
-    $('body').one("click",()=>{JOUEUR.timer();})
-
+    $('body').one("click", () => {
+        JOUEUR.timer();
+    })
 
 }
 

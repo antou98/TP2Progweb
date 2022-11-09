@@ -6,7 +6,12 @@ body {
 }
 
 #divPrincipal {
-    width: 100%;
+    width: 677px;
+    border: 1px solid #2B81AF;
+    border-radius: 10px;
+    margin-left: 10px;
+    padding: 2px;
+
 }
 
 
@@ -33,7 +38,7 @@ tr, td {
 }
 
 #personnage {
-    width: 275px;
+    width: 277px;
     height: 243px;
 }
 
@@ -65,5 +70,6 @@ tr, td {
 #divJoueur{
     color: #2F68DA;
     font-size: larger;
+    padding: 2px;
 }
 
