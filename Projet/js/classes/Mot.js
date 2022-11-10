@@ -62,6 +62,11 @@ class Mot {
         this._nbDeMauvaiseLettresEntrees = 0
         this._lettresRestantes = this._mot
     }
+    lettreTousDemandee(){
+        let bool = false;
+        this._lettresRestantes.length === 0? bool =true:bool=false;
+        return bool
+    }
 }
 
 
