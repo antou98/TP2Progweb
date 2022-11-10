@@ -1,24 +1,20 @@
 "use strict"
-
-
-
-
+/**
+ * mot à tester
+ * @type {Mot}
+ */
 let mot = new Mot("allo")
-
-
 
 //test function contient lettre
 QUnit.test('retourne indice 1 et 2', function(assert) {
     let num = mot.contientLettre("l")
     let test =num.join("")
-    console.log(test)
     assert.equal(test,"12",'devrait retourner 2 indices');
 });
 
 QUnit.test('retourne indice 0', function(assert) {
     let num = mot.contientLettre("a")
     let test =num.join("")
-    console.log(test)
     assert.equal(test,"0",'devrait retourner 2 indices');
 
 });
@@ -26,7 +22,6 @@ QUnit.test('retourne indice 0', function(assert) {
 QUnit.test('retourne auncun indice', function(assert) {
     let num = mot.contientLettre("f")
     let test =num.join("")
-    console.log(test)
     assert.equal(test,"",'devrait retourner 2 indices');
 });
 
@@ -65,17 +60,6 @@ QUnit.test('fonctionne égale au nombre de lettre demandé', function(assert) {
 
     assert.equal(mot.nbLettreMauvaiseGET,3,'fonctionne si le nb est égal au nb de lettre deja utilisé (3 ici)');
 });
-// QUnit.module('Test de la contient lettre', function(hooks) {
-//     hooks.before( function() {
-//
-//         console.log("");
-//     });
-//
-//     hooks.beforeEach( function() {
-//
-//         console.log("");
-//     });
-//
-// });
+
 
 

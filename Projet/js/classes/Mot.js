@@ -32,8 +32,8 @@ class Mot {
 
         let retIndex = []
 
-        for (let i = 0; i < tabLettre.length; i++) {
-            if (tabLettre[i] === lettre) {
+        for (let i = 0; i < this._mot.length; i++) {
+            if (this._mot[i] === lettre) {
                 retIndex.push(i)
             }
         }

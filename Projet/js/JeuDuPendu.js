@@ -9,62 +9,49 @@ function afficheInterfaceHtml() {
     divPrincipal.id = "divPrincipal"
     $("body").prepend(divPrincipal)
 
-    let table = document.createElement("table")
-    table.id = "tablePrincipal"
+    // let table = document.createElement("table")
+    // table.id = "tablePrincipal"
 
-    $("#divPrincipal").append(table)
+    $("#divPrincipal").append($("<table>").prop("id", "tablePrincipal"))
 
     for (let i = 0; i < 3; i++) {
-        $("#tablePrincipal").append("<tr>")
+        let tr = $("<tr>").prop("id", "tr" + i)
+        $("#tablePrincipal").append(tr)
     }
 
     //creation de la disposition de la table
-    let indexTD = 0
-    $("tr").each(function () {
-        if (indexTD === 0) {
-            let td = document.createElement("td")
-            td.colSpan = 2
-            td.append(createImg("images/titre.jpg", "677", "92", "Jeu du bonhomme pendu", ""))
-            this.append(td)
-        } else if (indexTD === 1) {
-            let td1 = document.createElement("td")
-            td1.id = "dessinTD"
-            let td2 = document.createElement("td")
-            td2.id = "phylactereTD"
-            td1.rowSpan = 2
-            td1.append(createImg("images/bonhomme_pendu_0.jpg", "400", "435", "dessin", "dessin"))
-            td2.append(createImg("images/phylactere_intro.jpg", "275", "192", "", "phylactere"))
-            this.append(td1, td2)
-        } else if (indexTD === 2) {
-            let td = document.createElement("td")
-            td.id = "personnageTD"
-            td.append(createImg("images/personnage_1.jpg", "275", "241", "personnage", "personnage"))
-            this.append(td)
-        }
+    let td1 = $("<td>").prop("colSpan", 2).append(createImg("images/titre.jpg", "677", "92", "Jeu du bonhomme pendu", ""))
+    $("#tr0").append(td1)
 
-        indexTD++
-    })
+    let td2 = ($("<td>").prop({
+        "id": "dessinTD",
+        "rowSpan": "2"
+    }).append(createImg("images/bonhomme_pendu_0.jpg", "400", "435", "dessin", "dessin")))
+    let td3 = $("<td>").prop("id", "phylactereTD").append(createImg("images/phylactere_intro.jpg", "275", "192", "", "phylactere"))
+    $("#tr1").append(td2, td3)
+
+
+    let td4 = $("<td>").prop("id", "personnageTD").append(createImg("images/personnage_1.jpg", "275", "241", "personnage", "personnage"))
+    $("#tr2").append(td4)
+
     //ajout attribut sur tout les td de la table
     $("table td").attr('align', 'left').attr('valign', 'top');
 
     //div du mot à deviner
-    let divMot_cache = document.createElement("div");
-    divMot_cache.id = "mot_cache"
-    $("#divPrincipal").append(divMot_cache)
+
+    $("#divPrincipal").append($("<div>").prop("id", "mot_cache"))
 
     //create span parent for hidden word
     let spanLettreBase = createFirstSpan()
     $("#mot_cache").append(spanLettreBase)
 
     //div des lettres de l'alphabet
-    let div_alphabet = document.createElement("div")
-    div_alphabet.id = "alphabet"
+    let div_alphabet = $("<div>").prop("id", "alphabet")
 
     //création de span lettre pour la div alphabet
     let alphabetTab = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
     for (let i = 0; i < 26; i++) {
-        let spanLettre = document.createElement("span")
-        spanLettre.className = "spanAlphabet"
+        let spanLettre = $("<span>").prop("className", "spanAlphabet")
         let src = `images/lettres/${alphabetTab[i]}.gif`
         spanLettre.append(createImg(src, 18, 35, alphabetTab[i], alphabetTab[i]))
         div_alphabet.append(spanLettre)
@@ -77,16 +64,15 @@ function afficheInterfaceHtml() {
 
 
     //création div joueur info
-    let divJoueur = document.createElement("div")
-    divJoueur.id = "divJoueur"
+    let divJoueur = $("<div>").prop("id", "divJoueur")
+
 
     $("#divPrincipal").append(divJoueur)
-    let spanPointsPossible = document.createElement("span")
-    spanPointsPossible.id = "pointsPossible"
+    let spanPointsPossible = $("<span>").prop("id", "pointsPossible")
     spanPointsPossible.append(document.createTextNode("9/9"))
 
-    let paraJoueur = document.createElement("p")
-    paraJoueur.id = "idParaJoueur"
+    let paraJoueur = $("<p>").prop("id", "idParaJoueur")
+
 
     $("#divJoueur").html("Points possibles : ").append(spanPointsPossible, '<br/>', paraJoueur)
 
@@ -97,16 +83,6 @@ function afficheInterfaceHtml() {
         span.id = String(i);
         i++;
     })
-
-
-    // ///////////////////////////////////////////////////
-    // //button pour tester à déroulement effacer
-    // let buttonTest = document.createElement("button")
-    // buttonTest.id = "buttonTest"
-    // buttonTest.textContent = "test"
-    // $("body").append(buttonTest)
-    // buttonTest.addEventListener("click", nextWord)
-    // ///////////////////////////////////////////////////
 }
 
 //variable globale à modifier
@@ -297,7 +273,10 @@ function afficheTexteJoueur() {
     })
 }
 
-//lancement initial de l'application
+/**
+ * lancement initial de l'application
+ */
+
 function main() {
 
     JOUEUR = new Joueur();
