@@ -109,7 +109,9 @@ function addEventListenersAlphabet() {
     })
 }
 
-//affiche lettre clické
+/***
+ * affiche lettre clické
+ */
 function afficheLettre(lettre) {
 
     let tabIndex = MOT_ACTUEL.contientLettre(lettre)
@@ -130,7 +132,6 @@ function afficheLettre(lettre) {
         JOUEUR.incrementeMotTentative()
         JOUEUR.incrementeMotReussi()
         JOUEUR.pointageTotalAddition()
-        //afficheTexteJoueur()
         //réinitialise mots du jeux
         MOTS_JEUX.length === 1 ? initWords() : setTimeout(nextWord, 2000)
         afficheTexteJoueur()
@@ -150,10 +151,7 @@ function afficheLettre(lettre) {
         $("#phylactere").prop("src", "images/phylactere_desole.jpg")
         setTimeout('$("#phylactere").prop("src","images/phylactere_rien.jpg")', 2000);
         JOUEUR.decrementePointage()
-
         JOUEUR.incrementeMotTentative()
-
-        //afficheTexteJoueur()
         //réinitialise mots du jeux
         MOTS_JEUX.length === 1 ? initWords() : setTimeout(nextWord, 2000)
         afficheTexteJoueur()
