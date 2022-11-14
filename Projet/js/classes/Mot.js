@@ -70,40 +70,5 @@ class Mot {
 }
 
 
-function test() {
-    let mot = new Mot("allo");
-    console.log(mot)
 
-    console.log(mot.lettresRestantesGET)
-    console.log(mot.nbLettreMauvaiseGET)
-
-    mot.contientLettre("t")
-
-    console.log(mot.lettresRestantesGET)
-    console.log(mot.nbLettreMauvaiseGET)
-
-    mot.contientLettre("l")
-    console.log(mot.lettresRestantesGET)
-    console.log(mot.nbLettreMauvaiseGET)
-
-    mot.contientLettre("a")
-    console.log(mot.lettresRestantesGET)
-    console.log(mot.nbLettreMauvaiseGET)
-
-    mot.contientLettre("t")
-    console.log(mot.lettresRestantesGET)
-    console.log(mot.nbLettreMauvaiseGET)
-
-    mot.contientLettre("o")
-    console.log(mot.lettresRestantesGET)
-    console.log(mot.nbLettreMauvaiseGET)
-
-    mot.contientLettre("y")
-    console.log(mot.lettresRestantesGET)
-    console.log(mot.nbLettreMauvaiseGET)
-
-
-}
-
-test()
 

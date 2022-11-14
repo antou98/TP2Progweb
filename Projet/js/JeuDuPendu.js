@@ -2,16 +2,16 @@
 //Anoh Christian Assanvo/ Antoine Fortier
 
 
-//génération du html
+/***
+ * génération du html
+ */
+
 function afficheInterfaceHtml() {
     let divPrincipal = document.createElement("div")
 
     divPrincipal.id = "divPrincipal"
     $("body").prepend(divPrincipal)
-
-    // let table = document.createElement("table")
-    // table.id = "tablePrincipal"
-
+    
     $("#divPrincipal").append($("<table>").prop("id", "tablePrincipal"))
 
     for (let i = 0; i < 3; i++) {
@@ -85,11 +85,17 @@ function afficheInterfaceHtml() {
     })
 }
 
-//variable globale à modifier
+/***
+ * variable globale à modifier
+ */
+
 let MOTS_JEUX = []
 let MOT_ACTUEL;
+let MOT_AVANT;
 let NB_ESSAIE = 1
 let JOUEUR;
+let secondeJeux;
+let minuteJeux;
 
 //add event listener sur les lettres de l'alphabet
 //et réintialise les classe des lettres de l'alphabet lors du relancement des listener
@@ -132,8 +138,12 @@ function afficheLettre(lettre) {
         JOUEUR.incrementeMotTentative()
         JOUEUR.incrementeMotReussi()
         JOUEUR.pointageTotalAddition()
-        //réinitialise mots du jeux
-        MOTS_JEUX.length === 1 ? initWords() : setTimeout(nextWord, 2000)
+
+        secondeJeux = JOUEUR.secondes;
+        minuteJeux = JOUEUR.minutes;
+
+
+
         afficheTexteJoueur()
         setTimeout(nextWord, 2000)
     }
@@ -150,10 +160,15 @@ function afficheLettre(lettre) {
         $(".spanAlphabet").off("click",)
         $("#phylactere").prop("src", "images/phylactere_desole.jpg")
         setTimeout('$("#phylactere").prop("src","images/phylactere_rien.jpg")', 2000);
+
         JOUEUR.decrementePointage()
         JOUEUR.incrementeMotTentative()
-        //réinitialise mots du jeux
-        MOTS_JEUX.length === 1 ? initWords() : setTimeout(nextWord, 2000)
+
+        secondeJeux = JOUEUR.secondes;
+        minuteJeux = JOUEUR.minutes;
+
+
+
         afficheTexteJoueur()
         setTimeout(nextWord, 2000)
 
@@ -184,39 +199,37 @@ function afficheLettre(lettre) {
     }
 }
 
-//lancement d'un tableau de mot 10 différent
+/**
+ * lancement d'un tableau des mots
+ */
 function initWords() {
-    let mots_source = []
-    let setIndex = new Set()
-    //nb de mot dans le jeu
-    let nbEssaies = 15
-
     for (let cle in motsSources) {
-        mots_source.push(motsSources[cle])
+        MOTS_JEUX.push(new Mot(motsSources[cle]))
+    }
+}
+
+/***
+ * choisi un mot random dans MOTS_JEUX
+ */
+function pickWord() {
+
+    if (MOT_ACTUEL !== undefined) {
+        MOT_AVANT = MOT_ACTUEL;
+        MOT_AVANT.resetAttributes()
     }
 
     do {
-        let randomInt = Math.trunc(Math.random() * 15)
-        setIndex.add(randomInt)
-    } while (setIndex.size < nbEssaies)
-
-    setIndex.forEach((value) => {
-        MOTS_JEUX.push(new Mot(mots_source[value]))
-    })
-
-    console.log(MOTS_JEUX)
-}
-
-//choisi un mot random dans MOTS_JEUX
-function pickWord() {
-
-    let random = Math.floor(Math.random() * (MOTS_JEUX.length - 1));
-    MOT_ACTUEL = MOTS_JEUX[random];
-    MOTS_JEUX.splice(random, 1);
+        let random = Math.floor(Math.random() * (MOTS_JEUX.length - 1));
+        MOT_ACTUEL = MOTS_JEUX[random];
+    }while(MOT_ACTUEL===MOT_AVANT);
     $("#phylactere").prop("src", "images/phylactere_intro.jpg")
+    console.log(MOT_AVANT)
+    console.log(MOT_ACTUEL)
 }
 
-//intialise un mot caché
+/***
+ * intialise un mot caché
+ */
 function initHiddenWord() {
 
     for (let x = 1; x < MOT_ACTUEL.motLength(); x++) {
@@ -227,8 +240,14 @@ function initHiddenWord() {
     }
 }
 
-//initialise un nouveau mot
+/***
+ * initialise un nouveau mot
+ */
 function nextWord() {
+    $("#alphabet").one("click",()=>{
+        JOUEUR.minuteSet(minuteJeux)
+        JOUEUR.secondeSet(secondeJeux)
+    })
     let span = createFirstSpan()
     let mot_cache = document.getElementById("mot_cache")
     while (mot_cache.firstChild) {
@@ -245,7 +264,9 @@ function nextWord() {
     JOUEUR.setpointage(9)
 }
 
-//fonctions qui gèrent le wink du personnage
+/***
+ * fonctions qui gèrent le wink du personnage
+ */
 function wink() {
     $("#personnage").prop("src", "images/personnage_2.jpg")
     setTimeout(() => {
@@ -260,6 +281,9 @@ function winkLoop() {
 
 }
 
+/***
+ * fonction qui affiche le texte du joueur
+ */
 function afficheTexteJoueur() {
     $('#pointsPossible').html(`${JOUEUR.pointage}/9`)
     let spanIndex = 0;
@@ -274,16 +298,14 @@ function afficheTexteJoueur() {
 /**
  * lancement initial de l'application
  */
-
 function main() {
-
     JOUEUR = new Joueur();
     afficheInterfaceHtml()
     initWords()
     pickWord()
     initHiddenWord()
     wink()
-    $('body').one("click", () => {
+    $('#alphabet').one("click", () => {
         JOUEUR.timer();
     })
 

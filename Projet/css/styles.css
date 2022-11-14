@@ -72,4 +72,7 @@ tr, td {
     font-size: larger;
     padding: 2px;
 }
+#mot_cache >span{
+    margin-left: 10px;
+}
 

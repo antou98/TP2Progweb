@@ -23,6 +23,13 @@ class Joueur{
     }
 
 
+    secondeSet(value) {
+        this._secondes = value;
+    }
+
+    minuteSet(value) {
+        this._minutes = value;
+    }
 
     get motTentative() {
         return this._motTentative;
